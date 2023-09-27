@@ -1,0 +1,31 @@
+
+spring:
+  application:
+    name: TASK-SERVICE
+  datasource:
+    url: jdbc:postgresql://34.124.162.41/miniproject2
+    username: user
+    password: 1111
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+
+
+
+# config Eureka
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9001/eureka
+server:
+  port: 2001
