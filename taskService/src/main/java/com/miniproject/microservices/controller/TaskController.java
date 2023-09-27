@@ -5,6 +5,7 @@ import com.miniproject.microservices.dto.TaskResponseDto;
 import com.miniproject.microservices.request.TaskRequest;
 import com.miniproject.microservices.service.ITaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
+@RefreshScope
 public class TaskController {
 
 
