@@ -5,7 +5,6 @@ import com.miniproject.keycloakadminclient.request.UserRequest;
 import com.miniproject.keycloakadminclient.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
