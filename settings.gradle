@@ -3,4 +3,6 @@ include 'springCloudGateway'
 include 'serviceRegistery'
 include 'taskService'
 include 'configServer'
+include 'keycloakAdminClient'
+include 'common-service'
 

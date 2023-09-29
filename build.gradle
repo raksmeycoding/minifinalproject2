@@ -47,6 +47,9 @@ project("springCloudGateway"){
         implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        //        config client spring cloud
+        implementation 'org.springframework.cloud:spring-cloud-starter-config'
     }
 }
 
@@ -94,6 +97,40 @@ project("configServer") {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+
+    }
+}
+
+
+project("keycloakAdminClient") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+        implementation 'org.keycloak:keycloak-spring-boot-starter:21.0.1'
+        implementation 'org.keycloak:keycloak-admin-client:21.0.1'
+
+
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+
+    }
+
+}
+
+
+project("common-service") {
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
 
     }
 }

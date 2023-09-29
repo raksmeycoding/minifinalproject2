@@ -6,7 +6,12 @@ spring:
           uri: https://github.com/raksmeycoding/global-config-yml
           default-label: master
           clone-on-start: true
-#          search-paths: /taskServicee
+#          repos:
+#            staging-properties-repo:
+#              pattern: config-client/staging
+#              uri: https://github.com/raksmeycoding/global-config-yml
+#              search-paths: /apiGateway/*
+  #          search-paths: /taskServicee
   application:
     name: CONFIG-SERVER
 
