@@ -21,6 +21,8 @@ spring:
 #            - Method=POST
 #        - id: DP_SERVICE
 #          uri: lb://DP_SERVICE
+  config:
+    import: optional:configserver:http://localhost:9000
 
 
 
