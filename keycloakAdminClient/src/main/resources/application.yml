@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9900/auth/realms/mini-project-2-realm
+          jwk-set-uri: http://localhost:9900/auth/realms/mini-project-2-realm/protocol/openid-connect/certs
+  application:
+    name: KEYCLOAK-ADMIN-CLIENT
+server:
+  port: 8080
+keycloak:
+  realm: mini-project-2-realm
+  resource: new-client
+  auth-server-url: http://localhost:9900/auth/ #docker container
+  credentials:
+    username: 'admin'
+    password: 'admin'
+    client-id: 'new-client'
+    secret: 'HkTQDf47V34G5SgAoaXo0qCsSztzV4VK'
+    provider: secret
+logging:
+  level:
+    org.springframework.web: debug
+

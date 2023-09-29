@@ -1,61 +1,68 @@
 spring:
   application:
-    name: SPRING-CLOUD-API-GATEWAY
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-#        - id: TASK-SERVICE
-          uri: lb://TASK-SERVICE
-#          uri: http://localhost:2001
-          predicates:
-            - Path=/api/v1/task/**
-            - Method=GET,POST,PUT,DELETE
-#        - id: TASK_SERVICE_POST
-#          uri: lb://TASK_SERVICE
-#          predicates:
-#            - Path=/api/v1/task
-#            - Method=POST
-#        - id: DP_SERVICE
-#          uri: lb://DP_SERVICE
+    name: GATEWAY-SERVICE
   config:
     import: optional:configserver:http://localhost:9000
-
-
-
-
-
-
-
-
-
-#config server
-server:
-  port: 9002
-
-
-# config Eureka
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:9001/eureka
-
-
-
-# route for employee service
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          gateway:
-            handler:
-              routePredicateHandlerMapping: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+#      routes:
+##        - id: TASK-SERVICE
+#          uri: lb://TASK-SERVICE
+##          uri: http://localhost:2001
+#          predicates:
+#            - Path=/api/v1/task/**
+#            - Method=GET,POST,PUT,DELETE
+##        - id: TASK_SERVICE_POST
+##          uri: lb://TASK_SERVICE
+##          predicates:
+##            - Path=/api/v1/task
+##            - Method=POST
+##        - id: DP_SERVICE
+##          uri: lb://DP_SERVICE
+##  config:
+##    import: optional:configserver:http://localhost:9000
+#
+#
+#
+#
+#
+#
+#
+#
+#
+##config server
+#server:
+#  port: 9002
+#
+#
+## config Eureka
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:9001/eureka
+#
+#
+#
+## route for employee service
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        cloud:
+#          gateway:
+#            handler:
+#              routePredicateHandlerMapping: DEBUG
 
 
 
