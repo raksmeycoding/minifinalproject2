@@ -51,37 +51,36 @@ public class UserService {
     }
 
     public List<User> findByEmail(String email) {
-        List<UserRepresentation> userRepresentations = keycloak.realm(realm).users().search(email);
+        List<UserRepresentation> userRepresentations = keycloak.realm(realm).users().searchByEmail(email, false);
+        System.out.println(userRepresentations);
         return userRepresentations.stream()
                 .map(UserMapper::toEntity)
                 .collect(Collectors.toList());
     }
 
-    public User findById(UUID uuid) {
-        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
+    public User findById(UUID userId) {
+        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(userId)).toRepresentation();
         return UserMapper.toEntity(userRepresentation);
 
     }
 
-    public User updateUser(UUID uuid, UserRequest userRequest) {
+    public User updateUser(UUID userId, UserRequest userRequest) {
 
-        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
-        UserRepresentation updateUserRepresentation = new UserRepresentation();
+        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(userId)).toRepresentation();
 
-        updateUserRepresentation.setUsername(userRequest.getUserName());
-        updateUserRepresentation.setFirstName(userRequest.getFistName());
-        updateUserRepresentation.setLastName(userRequest.getLastName());
-        updateUserRepresentation.setEmail(userRequest.getEmail());
+        userRepresentation.setUsername(userRequest.getUserName());
+        userRepresentation.setFirstName(userRequest.getFistName());
+        userRepresentation.setLastName(userRequest.getLastName());
+        userRepresentation.setEmail(userRequest.getEmail());
 
-        keycloak.realm(realm).users().get(String.valueOf(uuid)).update(userRepresentation);
+        keycloak.realm(realm).users().get(String.valueOf(userId)).update(userRepresentation);
 
         return UserMapper.toEntity(userRepresentation);
 
     }
 
-    public void deleteUser(UUID uuid) {
-        keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
-
+    public void deleteUser(UUID userId) {
+        keycloak.realm(realm).users().delete(String.valueOf(userId));
     }
 }
 

@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping("/users/search")
     public List<User> getAllUser(@RequestParam String username) {
+
         return userService.findByUsername(username);
     }
 
@@ -38,32 +39,27 @@ public class UserController {
     }
 
     @GetMapping("/user/email")
-    public List<User> getAllUserByEmail(@RequestParam String email){
+    public List<User> getUserByEmail(@RequestParam String email){
         return userService.findByEmail(email);
     }
 
-    @GetMapping("/user/{id}")
-    public User getUserById (@PathVariable UUID uuid){
-        return userService.findById(uuid);
+    @GetMapping("/user/{userId}")
+    public User getUserById (@PathVariable UUID userId){
+
+        return userService.findById(userId);
     }
 
-    @PutMapping("/user")
-    public User updateUser (@PathVariable UUID uuid,@RequestBody UserRequest userRequest){
-        return userService.updateUser(uuid,userRequest);
+    @PutMapping("/user/{userId}")
+    public User updateUser (@PathVariable UUID userId,@RequestBody UserRequest userRequest){
+        return userService.updateUser(userId,userRequest);
     }
 
-    @DeleteMapping("/user")
-    public void deleteUserById (@PathVariable UUID uuid){
-        userService.deleteUser(uuid);
+    @DeleteMapping("/user/{userId}")
+    public void deleteUserById (@PathVariable UUID userId){
+
+        userService.deleteUser(userId);
     }
 }
 
 
-//{
-//        "userName": "khamann",
-//        "password": "1111",
-//        "email": "khamann",
-//        "fistName": "kha",
-//        "lastName": "mann"
-//        }
 
