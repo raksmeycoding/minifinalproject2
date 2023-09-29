@@ -37,3 +37,12 @@ public class UserController {
     }
 }
 
+
+//{
+//        "userName": "khamann",
+//        "password": "1111",
+//        "email": "khamann",
+//        "fistName": "kha",
+//        "lastName": "mann"
+//        }
+

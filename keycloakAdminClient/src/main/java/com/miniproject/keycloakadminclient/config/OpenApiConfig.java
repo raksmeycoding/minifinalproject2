@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         in = SecuritySchemeIn.HEADER,
         flows = @OAuthFlows(
                 clientCredentials = @OAuthFlow(
-                        tokenUrl = "http://localhost:9900/auth/realms/mini-project-2-realm/protocol/openid-connect/token"
+                        tokenUrl = "https://keycloak.domrra.site/auth/realms/mini-project-2-realm/protocol/openid-connect/token"
                 )
         )
 )
