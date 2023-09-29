@@ -15,6 +15,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,7 +50,19 @@ public class GroupService {
         GroupRepresentation groupRepresentation = new GroupRepresentation();
         groupRepresentation.setName(groupRequest.getGroupName());
         keycloak.realm(realm).groups().add(groupRepresentation);
-      return GroupMapper.toEntity(groupRepresentation);
+
+        List<GroupRepresentation> groups = keycloak.realm(realm).groups().groups();
+        for (GroupRepresentation group : groups) {
+            if (group.getName().equals(groupRequest.getGroupName())) {
+                return Group.builder()
+                        .groupId(UUID.fromString(group.getId()))
+                        .groupName(group.getName())
+                        .build();
+            }
+        }
+
+        // Handle the case where the group was not found
+        throw new RuntimeException("Failed to retrieve the created group");
     }
 
     public void addUser(UUID userId, UUID groupId) {

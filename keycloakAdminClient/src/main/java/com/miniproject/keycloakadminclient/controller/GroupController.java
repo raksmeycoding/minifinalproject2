@@ -4,6 +4,7 @@ import com.miniproject.keycloakadminclient.entity.Group;
 import com.miniproject.keycloakadminclient.entity.User;
 import com.miniproject.keycloakadminclient.request.GroupRequest;
 import com.miniproject.keycloakadminclient.service.GroupService;
+import com.miniproject.keycloakadminclient.service.IGroupServiceV1;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,22 @@ public class GroupController {
 
     private final GroupService groupService;
 
+    private final IGroupServiceV1 groupServiceV1;
+
     @GetMapping("/groups")
     public List<Group> getAllGroup (){
         return groupService.getAllGroups();
     }
+
+//    @GetMapping("/testGetAllGroup")
+//    public ResponseEntity<?> getAllGroupTest() {
+//        return ResponseEntity.ok(groupServiceV1.getGroupName());
+//    }
+//    @PostMapping("/AddUserToGroupTest/{userId}/{groupId}")
+//    public ResponseEntity<?> AddUserToGroupTest(@PathVariable UUID userId, @PathVariable UUID groupId) {
+//        return ResponseEntity.ok(groupServiceV1.addUserToGroup(userId, groupId));
+//    }
+
 
     @GetMapping("/groups/{id}")
     public Group getGroupById(@PathVariable UUID id){
