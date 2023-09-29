@@ -17,7 +17,8 @@ keycloak:
     username: 'admin'
     password: 'admin'
     client-id: 'new-client'
-    secret: 'HkTQDf47V34G5SgAoaXo0qCsSztzV4VK'
+#    secret: 'HkTQDf47V34G5SgAoaXo0qCsSztzV4VK'
+    secret: 'tpNbEKjxzreXYvxcNgEnGFChvCtxvdoa'
     provider: secret
 logging:
   level:
