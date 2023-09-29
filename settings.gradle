@@ -2,5 +2,4 @@ rootProject.name = 'microservices'
 include 'springCloudGateway'
 include 'serviceRegistery'
 include 'taskService'
-include 'keycloak-admin-client'
 
