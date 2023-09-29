@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,5 +50,38 @@ public class UserService {
 
     }
 
+    public List<User> findByEmail(String email) {
+        List<UserRepresentation> userRepresentations = keycloak.realm(realm).users().search(email);
+        return userRepresentations.stream()
+                .map(UserMapper::toEntity)
+                .collect(Collectors.toList());
+    }
+
+    public User findById(UUID uuid) {
+        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
+        return UserMapper.toEntity(userRepresentation);
+
+    }
+
+    public User updateUser(UUID uuid, UserRequest userRequest) {
+
+        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
+        UserRepresentation updateUserRepresentation = new UserRepresentation();
+
+        updateUserRepresentation.setUsername(userRequest.getUserName());
+        updateUserRepresentation.setFirstName(userRequest.getFistName());
+        updateUserRepresentation.setLastName(userRequest.getLastName());
+        updateUserRepresentation.setEmail(userRequest.getEmail());
+
+        keycloak.realm(realm).users().get(String.valueOf(uuid)).update(userRepresentation);
+
+        return UserMapper.toEntity(userRepresentation);
+
+    }
+
+    public void deleteUser(UUID uuid) {
+        keycloak.realm(realm).users().get(String.valueOf(uuid)).toRepresentation();
+
+    }
 }
 

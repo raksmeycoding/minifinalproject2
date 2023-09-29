@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -34,6 +35,26 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.createUser(userRequest));
+    }
+
+    @GetMapping("/user/email")
+    public List<User> getAllUserByEmail(@RequestParam String email){
+        return userService.findByEmail(email);
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById (@PathVariable UUID uuid){
+        return userService.findById(uuid);
+    }
+
+    @PutMapping("/user")
+    public User updateUser (@PathVariable UUID uuid,@RequestBody UserRequest userRequest){
+        return userService.updateUser(uuid,userRequest);
+    }
+
+    @DeleteMapping("/user")
+    public void deleteUserById (@PathVariable UUID uuid){
+        userService.deleteUser(uuid);
     }
 }
 
