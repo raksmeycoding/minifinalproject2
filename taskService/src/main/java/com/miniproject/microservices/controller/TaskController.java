@@ -4,10 +4,13 @@ package com.miniproject.microservices.controller;
 import com.miniproject.microservices.dto.TaskResponseDto;
 import com.miniproject.microservices.request.TaskRequest;
 import com.miniproject.microservices.service.ITaskService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
 @RefreshScope
+@SecurityRequirement(name = "miniproject02")
 public class TaskController {
 
 
@@ -23,32 +27,16 @@ public class TaskController {
 
 
     @GetMapping("{taskId}")
-    public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable UUID taskId) {
-        var getTask = taskService.getTaskById(taskId);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                TaskResponseDto.builder()
-                        .task(getTask)
-                        .message("Get task successfully by id=" + taskId)
-                        .status(HttpStatus.OK.value())
-                        .build()
-        );
-
-
+    public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable UUID taskId, @AuthenticationPrincipal Jwt jwt) {
+        var getTask = taskService.getTaskById(taskId, jwt);
+        return ResponseEntity.status(HttpStatus.OK).body(getTask);
     }
 
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> addTask(@RequestBody TaskRequest taskRequest) {
-        var saveTask = taskService.saveTask(taskRequest).toDto();
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(
-                        TaskResponseDto.builder()
-                                .task(saveTask)
-                                .message("Task was saved successfully")
-                                .status(200)
-                                .build()
-                );
-
+    public ResponseEntity<TaskResponseDto> addTask(@RequestBody TaskRequest taskRequest, @AuthenticationPrincipal Jwt jwt) {
+        var taskResponseDto = taskService.saveTask(taskRequest, jwt);
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskResponseDto);
 
     }
 

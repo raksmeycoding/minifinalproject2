@@ -24,4 +24,11 @@ keycloak:
 logging:
   level:
     org.springframework.web: debug
+# config Eureka
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9001/eureka
 

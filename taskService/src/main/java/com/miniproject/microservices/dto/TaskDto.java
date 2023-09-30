@@ -17,11 +17,26 @@ import java.util.UUID;
 @Builder
 public class TaskDto {
     private UUID id;
-    private String name;
+    private String title;
+
+    private String description;
+
+
+    private UUID createdBy;
+
+
+    private UUID assignTo;
+
+
+
+    private UUID groupId;
+
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date createDate;
+    @Temporal(TemporalType.DATE)
+
+    private Date lastModified;
 
 
-    private UUID userId;
 }

@@ -12,13 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
-
-    private UUID id;
-    private String username;
-    private String email;
-    private String firstName;
-    private String lastName;
-//    private String school;
-//    private String subject;
+public class GroupDto {
+    private UUID groupId;
+    private String groupName;
 }

@@ -22,20 +22,34 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
+    private String title;
+
+    private String description;
+
+    private UUID createdBy;
+
+    private UUID assignTo;
+
+
+    private UUID groupId;
+
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date createDate;
+    @Temporal(TemporalType.DATE)
 
-
-    private UUID userId;
+    private Date lastModified;
 
     public TaskDto toDto() {
         return TaskDto.builder()
                 .id(this.id)
-                .name(this.name)
-                .date(this.date)
-                .userId(this.userId)
+                .title(this.title)
+                .assignTo(this.assignTo)
+                .description(this.description)
+                .lastModified(this.lastModified)
+                .createDate(this.createDate)
+                .createdBy(this.createdBy)
+                .groupId(this.groupId)
                 .build();
     }
 }

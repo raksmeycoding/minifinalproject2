@@ -1,6 +1,7 @@
 package com.miniproject.keycloakadminclient.controller;
 
 import com.miniproject.keycloakadminclient.entity.User;
+import com.miniproject.keycloakadminclient.exception.NotFoundException;
 import com.miniproject.keycloakadminclient.request.UserRequest;
 import com.miniproject.keycloakadminclient.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -43,8 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public User getUserById (@PathVariable UUID userId){
-
+    public User getUserById (@PathVariable UUID userId) throws Exception {
         return userService.findById(userId);
     }
 

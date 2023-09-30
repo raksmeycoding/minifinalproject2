@@ -20,7 +20,6 @@ public class KeycloakSecurityConfig {
                 .cors(cors -> cors.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
                 .authorizeRequests(authorize -> authorize
-//                        .requestMatchers("/demo/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )

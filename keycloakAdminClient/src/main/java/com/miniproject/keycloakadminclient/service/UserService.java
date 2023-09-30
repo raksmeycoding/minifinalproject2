@@ -1,6 +1,7 @@
 package com.miniproject.keycloakadminclient.service;
 
 import com.miniproject.keycloakadminclient.entity.User;
+import com.miniproject.keycloakadminclient.exception.NotFoundException;
 import com.miniproject.keycloakadminclient.mapper.UserMapper;
 import com.miniproject.keycloakadminclient.request.UserRequest;
 import org.keycloak.admin.client.Keycloak;
@@ -8,7 +9,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,9 +40,9 @@ public class UserService {
 
     public User createUser(UserRequest userRequest) {
 //        try {
-            var userRepresentation = userRequest.toUserRepresentation();
-            keycloak.realm(realm).users().create(userRepresentation);
-            return UserMapper.toEntity(userRepresentation);
+        var userRepresentation = userRequest.toUserRepresentation();
+        keycloak.realm(realm).users().create(userRepresentation);
+        return UserMapper.toEntity(userRepresentation);
 //        } catch (Exception e) {
 //            System.out.println(e.getMessage());
 //            throw new RuntimeException(e.getMessage());
@@ -58,10 +58,16 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User findById(UUID userId) {
-        UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(userId)).toRepresentation();
-        return UserMapper.toEntity(userRepresentation);
-
+    public User findById(UUID userId) throws Exception {
+        try {
+            UserRepresentation userRepresentation = keycloak.realm(realm).users().get(String.valueOf(userId)).toRepresentation();
+            return UserMapper.toEntity(userRepresentation);
+        } catch (Exception exception) {
+            if (exception instanceof javax.ws.rs.NotFoundException) {
+                throw new NotFoundException("UserNotFound", "User is not found");
+            }
+            throw new Exception(exception);
+        }
     }
 
     public User updateUser(UUID userId, UserRequest userRequest) {
