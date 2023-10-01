@@ -3,7 +3,6 @@ package com.miniproject.microservices.service;
 
 import com.miniproject.common.GroupDto;
 import com.miniproject.common.UserDto;
-import com.miniproject.microservices.dto.TaskDto;
 import com.miniproject.microservices.dto.TaskResponseDto;
 import com.miniproject.microservices.entity.Task;
 import com.miniproject.microservices.exception.NotFoundException;
@@ -19,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -65,7 +66,7 @@ public class TaskService implements ITaskService {
     }
 
 
-   private Mono<UserDto> getUserById(UUID userId, Jwt jwt) {
+    private Mono<UserDto> getUserById(UUID userId, Jwt jwt) {
         return webClient
                 .defaultHeaders(httpHeaders -> httpHeaders.setBearerAuth(jwt.getTokenValue()))
                 .build()
@@ -100,4 +101,35 @@ public class TaskService implements ITaskService {
                 .message("Get task successfully.")
                 .build();
     }
+
+
+    @Override
+    public List<TaskResponseDto> getAllTask(Jwt jwt) {
+        var tasks = taskRepository.findAll();
+        System.out.println(tasks);
+        return tasks.stream().map(task -> {
+            return TaskResponseDto.builder()
+                    .id(task.getId())
+                    .title(task.getTitle())
+                    .description(task.getDescription())
+                    .createdBy(getUserById(task.getCreatedBy(), jwt).block())
+                    .assignTo(getUserById(task.getAssignTo(), jwt).block())
+                    .groupId(getGroupById(task.getGroupId(), jwt).block())
+                    .lastModified(task.getLastModified())
+                    .createdDate(task.getCreateDate())
+                    .build();
+        }).collect(Collectors.toList());
+    }
 }
+
+
+//                    TaskResponseDto taskResponseDto = TaskResponseDto.builder()
+//                            .id(task.getId())
+//                            .title(task.getTitle())
+//                            .description(task.getDescription())
+//                            .createdBy(getUserById(task.getCreatedBy(), jwt).block())
+//                            .assignTo(getUserById(task.getAssignTo(), jwt).block())
+//                            .groupId(getGroupById(task.getGroupId(), jwt).block())
+//                            .lastModified(task.getLastModified())
+//                            .createdDate(task.getCreateDate())
+//                            .build();

@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,5 +40,13 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskResponseDto);
 
     }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TaskResponseDto>> getAllTask(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTask(jwt));
+
+    }
+
 
 }
