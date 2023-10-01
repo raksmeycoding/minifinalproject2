@@ -1,19 +1,10 @@
 spring:
   application:
     name: SERVICE-REGISTRY # provider the service's name and name must be unique
-
-server:
-  port: 9001
-
-# step 1: create project and add Eureka server as dependency
-
-# step 2: enable Eureka as service registry
-
-# step 3: disable eureka server as eureka client
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-
-
-# step 4: lunch Eureka server (demo)
+  config:
+    import: optional:configserver:http://localhost:9000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics

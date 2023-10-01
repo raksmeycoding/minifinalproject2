@@ -1,37 +1,11 @@
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://keycloak.domrra.site/auth/realms/mini-project-2-realm
-          jwk-set-uri: https://keycloak.domrra.site/auth/realms/mini-project-2-realm/protocol/openid-connect/certs
-  #          issuer-uri: http://localhost:9900/auth/realms/mini-project-2-realm
-  #          jwk-set-uri: http://localhost:9900/auth/realms/mini-project-2-realm/protocol/openid-connect/certs
   application:
-    name: KEYCLOAK-ADMIN-CLIENT
-  zipkin:
-    base-url: http://127.0.0.1:9411/
-    enable: true
-server:
-  port: 8080
-keycloak:
-  realm: mini-project-2-realm
-  resource: mini-project-2-client
-  auth-server-url: https://keycloak.domrra.site/auth/ #docker container
-  credentials:
-    username: 'admin'
-    password: 'admin'
-    client-id: 'mini-project-2-client'
-    secret: 'LdBQdeV2CO3uUdiSi0CbZkU0rA9gAibQ'
-    provider: secret
-logging:
-  level:
-    org.springframework.web: debug
-# config Eureka
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:9001/eureka
+    name: KEYCLOAK-SERVICE
+  config:
+    import: optional:configserver:http://localhost:9000
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health, info, metrics
 

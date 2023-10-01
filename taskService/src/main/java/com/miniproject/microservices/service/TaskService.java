@@ -57,7 +57,7 @@ public class TaskService implements ITaskService {
                 .defaultHeaders(httpHeaders -> httpHeaders.setBearerAuth(jwt.getTokenValue()))
                 .build()
                 .get()
-                .uri("http://localhost:9002/keycloak-admin-client/api/v1/groups/" + groupId)
+                .uri("${keycloak.provider.url.getUserById}" + groupId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         clientResponse -> {
@@ -72,7 +72,7 @@ public class TaskService implements ITaskService {
                 .defaultHeaders(httpHeaders -> httpHeaders.setBearerAuth(jwt.getTokenValue()))
                 .build()
                 .get()
-                .uri("http://localhost:9002/keycloak-admin-client/api/v1/user/" + userId)
+                .uri("${keycloak.provider.url.getGroupById}" + userId)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         clientResponse -> {

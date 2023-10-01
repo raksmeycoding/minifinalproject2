@@ -3,27 +3,28 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/raksmeycoding/global-config-yml
+          uri: https://github.com/raksmeycoding/config-server.git
           default-label: master
           clone-on-start: true
-#          repos:
-#            staging-properties-repo:
-#              pattern: config-client/staging
-#              uri: https://github.com/raksmeycoding/global-config-yml
-#              search-paths: /apiGateway/*
-  #          search-paths: /taskServicee
+        bootstrap: true
   application:
     name: CONFIG-SERVER
-
-server:
-  port: 9000
-
-
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+    enable: true
 management:
   endpoints:
     web:
       exposure:
         include: health, info, metrics
+
+
+
+server:
+  port: 9000
+
+
+
 
 # config Eureka
 eureka:
@@ -32,3 +33,12 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:9001/eureka/
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          config:
+            server: DEBUG
+
