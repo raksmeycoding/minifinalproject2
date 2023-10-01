@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -130,16 +131,27 @@ public class TaskService implements ITaskService {
             taskRepository.deleteById(taskId);
             return "Task deleted successfully";
     }
+
+
+    @Override
+    public TaskResponseDto updateTaskById(UUID taskId, TaskRequest taskRequest, Jwt jwt) {
+        Task existTask = taskRepository.findById(taskId).orElseThrow(() -> new NotFoundException("TaskNotFound", "Task is not found with id=" + taskId));
+        existTask.setTitle(taskRequest.getTitle());
+        existTask.setDescription(taskRequest.getDescription());
+        existTask.setLastModified(new Date(System.currentTimeMillis()));
+        existTask.setGroupId(taskRequest.getGroupId());
+        existTask.setAssignTo(taskRequest.getAssignTo());
+        return  TaskResponseDto.builder()
+                .id(existTask.getId())
+                .title(existTask.getTitle())
+                .description(existTask.getDescription())
+                .message("Task has been updated successfully")
+                .status(200)
+                .lastModified(existTask.getLastModified())
+                .createdBy(getUserById(taskRequest.getCreateBy(), jwt).block())
+                .assignTo(getUserById(taskRequest.getAssignTo(), jwt).block())
+                .createdDate(existTask.getCreateDate()).build();
+    }
 }
 
 
-//                    TaskResponseDto taskResponseDto = TaskResponseDto.builder()
-//                            .id(task.getId())
-//                            .title(task.getTitle())
-//                            .description(task.getDescription())
-//                            .createdBy(getUserById(task.getCreatedBy(), jwt).block())
-//                            .assignTo(getUserById(task.getAssignTo(), jwt).block())
-//                            .groupId(getGroupById(task.getGroupId(), jwt).block())
-//                            .lastModified(task.getLastModified())
-//                            .createdDate(task.getCreateDate())
-//                            .build();

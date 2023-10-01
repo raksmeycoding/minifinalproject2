@@ -20,6 +20,10 @@ public interface ITaskService {
     String deleteTaskById(UUID taskId, Jwt jwt);
 
 
+    TaskResponseDto updateTaskById(UUID taskId,TaskRequest taskRequest, Jwt jwt);
+
+
+
 
 
 }
