@@ -86,6 +86,7 @@ public class UserService {
     }
 
     public void deleteUser(UUID userId) {
+
         keycloak.realm(realm).users().delete(String.valueOf(userId));
     }
 }

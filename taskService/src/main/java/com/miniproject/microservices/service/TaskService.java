@@ -10,6 +10,7 @@ import com.miniproject.microservices.exception.NotFoundException;
 import com.miniproject.microservices.repository.TaskRepository;
 import com.miniproject.microservices.request.TaskRequest;
 import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -100,4 +102,50 @@ public class TaskService implements ITaskService {
                 .message("Get task successfully.")
                 .build();
     }
+
+    @Override
+    public List<Task> getAllTasks(Jwt jwt) {
+        List<Task> findAllTasks = taskRepository.findAll();
+        return findAllTasks;
+    }
+
+    @Override
+    public TaskResponseDto deleteTask(UUID id, Jwt jwt) {
+        taskRepository.deleteById(id);
+        return  TaskResponseDto.builder().
+                status(200).
+                message("Delete task successfully.").
+                build();
+    }
+
+    @Override
+    public TaskDto updateTask(UUID id,TaskRequest taskRequest, Jwt jwt) {
+
+        Task task = taskRepository.findById(id).get();
+
+        task.setTitle(taskRequest.getTitle());
+        task.setDescription(taskRequest.getDescription());
+        task.setCreatedBy(taskRequest.getCreateBy());
+        task.setAssignTo(taskRequest.getAssignTo());
+        task.setGroupId(taskRequest.getGroupId());
+        task.setCreateDate(taskRequest.toEntity().getCreateDate());
+        task.setLastModified(taskRequest.toEntity().getLastModified());
+
+        Task taskResponse = taskRepository.save(task);
+
+        TaskDto dto = new TaskDto();
+
+        dto.setId(taskResponse.getId());
+        dto.setTitle(taskResponse.getTitle());
+        dto.setDescription(taskResponse.getDescription());
+        dto.setCreatedBy(taskResponse.getCreatedBy());
+        dto.setAssignTo(taskResponse.getAssignTo());
+        dto.setGroupId(taskResponse.getGroupId());
+        dto.setCreateDate(taskResponse.getCreateDate());
+        dto.setLastModified(taskResponse.getLastModified());
+
+        return dto;
+    }
+
+
 }

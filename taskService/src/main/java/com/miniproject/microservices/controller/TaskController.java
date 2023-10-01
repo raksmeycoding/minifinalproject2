@@ -2,6 +2,7 @@ package com.miniproject.microservices.controller;
 
 
 import com.miniproject.microservices.dto.TaskResponseDto;
+import com.miniproject.microservices.entity.Task;
 import com.miniproject.microservices.request.TaskRequest;
 import com.miniproject.microservices.service.ITaskService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -13,10 +14,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/task")
+@RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 @RefreshScope
 @SecurityRequirement(name = "miniproject02")
@@ -38,6 +40,24 @@ public class TaskController {
         var taskResponseDto = taskService.saveTask(taskRequest, jwt);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskResponseDto);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllTasks(@AuthenticationPrincipal Jwt jwt){
+    List<Task> getAllTask = taskService.getAllTasks(jwt);
+    return ResponseEntity.status(HttpStatus.OK).body(getAllTask);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<TaskResponseDto> deleteTask (@PathVariable UUID id, @AuthenticationPrincipal Jwt jwt){
+      var taskResponseDto =taskService.deleteTask(id,jwt);
+      return ResponseEntity.status(HttpStatus.OK).body(taskResponseDto);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateTask(@PathVariable UUID id, @RequestBody TaskRequest taskRequest,@AuthenticationPrincipal Jwt jwt){
+        var updateTask = taskService.updateTask(id,taskRequest,jwt);
+        return ResponseEntity.status(HttpStatus.OK).body(updateTask);
     }
 
 }
