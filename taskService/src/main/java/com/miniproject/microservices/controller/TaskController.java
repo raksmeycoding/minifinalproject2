@@ -49,4 +49,12 @@ public class TaskController {
     }
 
 
+
+    @DeleteMapping("{taskId}")
+    public ResponseEntity<String> deleteTaskById(@PathVariable UUID taskId, @AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.deleteTaskById(taskId, jwt));
+
+    }
+
+
 }

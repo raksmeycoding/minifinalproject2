@@ -17,5 +17,9 @@ public interface ITaskService {
     List<TaskResponseDto> getAllTask(Jwt jwt);
 
 
+    String deleteTaskById(UUID taskId, Jwt jwt);
+
+
+
 
 }

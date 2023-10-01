@@ -120,6 +120,16 @@ public class TaskService implements ITaskService {
                     .build();
         }).collect(Collectors.toList());
     }
+
+
+    @Override
+    public String deleteTaskById(UUID taskId, Jwt jwt) {
+            if(!taskRepository.existsById(taskId)){
+                throw new NotFoundException("TaskNotFound", "Task not found with id=" + taskId);
+            }
+            taskRepository.deleteById(taskId);
+            return "Task deleted successfully";
+    }
 }
 
 
