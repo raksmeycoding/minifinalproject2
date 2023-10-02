@@ -3,7 +3,6 @@ package com.miniproject.keycloakadminclient.service.groupServiceImpl;
 import com.miniproject.common.UserResponseDto;
 import com.miniproject.keycloakadminclient.service.IGroupServiceV1;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.GroupResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.GroupRepresentation;
