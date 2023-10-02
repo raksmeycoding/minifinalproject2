@@ -1,3 +1,3 @@
 
-docker-compose -f keycloak-compose.yml up -d
-docker-compose -f docker-compose-test.yml down
+
+command ["docker-compose", "-f", "zipkin-compose.yml", "up", "-d"]
