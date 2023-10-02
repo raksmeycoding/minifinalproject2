@@ -44,7 +44,7 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<?> getAllTasks(@AuthenticationPrincipal Jwt jwt){
-    List<Task> getAllTask = taskService.getAllTasks(jwt);
+    List<TaskResponseDto> getAllTask = taskService.getAllTasks(jwt);
     return ResponseEntity.status(HttpStatus.OK).body(getAllTask);
     }
 

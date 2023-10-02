@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,8 +105,22 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public List<Task> getAllTasks(Jwt jwt) {
-        List<Task> findAllTasks = taskRepository.findAll();
+    public List<TaskResponseDto> getAllTasks(Jwt jwt) {
+        List<TaskResponseDto> findAllTasks = new ArrayList<>();
+        List<TaskDto> taskDtos = taskRepository.findAll().stream().map(Task::toDto).toList();
+        System.out.println(taskDtos);
+        for (TaskDto taskDto:
+             taskDtos) {
+           findAllTasks.add(TaskResponseDto.builder()
+                   .id(taskDto.getId())
+                   .title(taskDto.getTitle())
+                   .description(taskDto.getDescription())
+                   .createdBy(getUserById(taskDto.getCreatedBy(), jwt).block())
+                   .assignTo(getUserById(taskDto.getAssignTo(), jwt).block())
+                   .groupId(getGroupById(taskDto.getGroupId(), jwt).block())
+                   .lastModified(taskDto.getLastModified())
+                   .createdDate(taskDto.getCreateDate()).build());
+        }
         return findAllTasks;
     }
 

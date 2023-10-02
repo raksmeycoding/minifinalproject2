@@ -13,7 +13,7 @@ public interface ITaskService {
     TaskResponseDto saveTask(TaskRequest taskRequest, Jwt jwt);
     TaskResponseDto getTaskById(UUID taskId, Jwt jwt);
 
-    List<Task> getAllTasks(Jwt jwt);
+    List<TaskResponseDto> getAllTasks(Jwt jwt);
 
     TaskResponseDto deleteTask(UUID id, Jwt jwt);
 
